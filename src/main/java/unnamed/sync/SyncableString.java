@@ -1,0 +1,58 @@
+package unnamed.sync;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import net.minecraft.nbt.NBTTagCompound;
+
+import com.google.common.base.Objects;
+
+public class SyncableString extends SyncableObjectBase implements ISyncableValueProvider<String> {
+
+    private String value;
+
+    public SyncableString() {
+        value = "";
+    }
+
+    public SyncableString(String val) {
+        value = val;
+    }
+
+    @Override
+    public void readFromStream(DataInputStream stream) throws IOException {
+        value = stream.readUTF();
+    }
+
+    @Override
+    public void writeToStream(DataOutputStream stream) throws IOException {
+        stream.writeUTF(value);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt, String name) {
+        value = nbt.getString(name);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt, String name) {
+        nbt.setString(name, value);
+    }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String newValue) {
+        if (!Objects.equal(newValue, value)) {
+            value = newValue;
+            markDirty();
+        }
+    }
+
+    public void clear() {
+        setValue("");
+    }
+}

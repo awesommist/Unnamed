@@ -1,0 +1,89 @@
+//================================================
+// Pre-execute
+
+buildscript {
+    repositories {
+        // General deps
+        mavenCentral()
+        // Minecraft Forge
+        maven {
+            name = 'Forge'
+            url = 'http://files.minecraftforge.net/maven'
+        }
+        // Sonatype (for SpecialSource in 1.7+)
+        maven {
+            name = "Sonatype Nexus"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        name 'Forge'
+        url 'http://files.minecraftforge.net/maven'
+    }
+    maven {
+        name 'MinecraftS3'
+        url 'http://s3.amazonaws.com/Minecraft.Download/libraries'
+    }
+}
+
+//================================================
+// Dependencies
+
+dependencies {}
+
+//================================================
+// Jar data
+
+version = mc_ver + "-" + mod_version
+group = "unnamed"
+
+minecraft {
+    version = mc_ver + "-" + forge_ver
+    runDir = "out/run"
+
+    replaceIn 'Unnamed.java'
+    replace '$LIB-VERSION$', mod_version
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.info'
+        expand 'version':mod_version,'MCVersion':mc_ver
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.info'
+    }
+}
+
+//================================================
+// Jar tasks
+
+task deobfJar(type: Jar) {
+    classifier = 'deobf'
+    from sourceSets.main.output
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'src'
+    from sourceSets.main.java
+}
+
+artifacts {
+    archives deobfJar
+    archives sourcesJar
+}
+
+defaultTasks 'clean'

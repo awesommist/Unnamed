@@ -1,0 +1,18 @@
+[
+{
+  "modid": "unnamed",
+  "name": "Unnamed",
+  "version": "${version}",
+  "url": "",
+  "credits": "",
+  "authors": [
+    "awesommist"
+  ],
+  "description": "Does things.",
+  "logoFile": "",
+  "updateUrl": "",
+  "parent": "",
+  "screenshots": [
+  ]
+}
+]

@@ -1,0 +1,60 @@
+package unnamed.sync;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import net.minecraft.nbt.NBTTagCompound;
+
+public class SyncableShort extends SyncableObjectBase implements ISyncableValueProvider<Short> {
+
+    private short value;
+
+    public SyncableShort() {
+        value = 0;
+    }
+
+    public SyncableShort(short val) {
+        value = val;
+    }
+
+    @Override
+    public void readFromStream(DataInputStream stream) throws IOException {
+        value = stream.readShort();
+    }
+
+    @Override
+    public void writeToStream(DataOutputStream stream) throws IOException {
+        stream.writeShort(value);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag, String name) {
+        value = tag.getShort(name);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tag, String name) {
+        tag.setShort(name, value);
+    }
+
+    @Override
+    public Short getValue() {
+        return value;
+    }
+
+    public short get() {
+        return value;
+    }
+
+    public void set(short val) {
+        if (val != value) {
+            value = val;
+            markDirty();
+        }
+    }
+
+    public void modify(short by) {
+        set((short)(value + by));
+    }
+}
