@@ -9,10 +9,10 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Unnamed.MODID, name = "Unnamed", version = "$LIB-VERSION$")
+@Mod(modid = Unnamed.MODID, name = Unnamed.MODID, version = "$LIB-VERSION$")
 public class Unnamed {
 
-    public static final String MODID = "unnamed";
+    public static final String MODID = "Unnamed";
 
     @Mod.Instance(MODID)
     public static Unnamed instance;
