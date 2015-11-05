@@ -1,4 +1,4 @@
-package unnamed.utils.coord;
+package unnamed.utils.vec;
 
 import unnamed.api.ICopyable;
 
@@ -32,6 +32,6 @@ public class DimCoord implements ICopyable<DimCoord> {
 
     @Override
     public String toString() {
-        return dim + "@(" + x + ", " + y + ", " + z + ")";
+        return String.format("%s,%s,%s,%s", dim, x, y, z);
     }
 }

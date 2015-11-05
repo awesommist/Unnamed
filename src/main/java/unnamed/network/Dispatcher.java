@@ -10,7 +10,7 @@ import unnamed.network.senders.ExtPacketSenderFactory;
 import unnamed.network.senders.FmlPacketSenderFactory;
 import unnamed.network.senders.IPacketSender;
 import unnamed.network.senders.ITargetedPacketSender;
-import unnamed.utils.coord.DimCoord;
+import unnamed.utils.vec.DimCoord;
 
 import com.google.common.collect.ImmutableList;
 

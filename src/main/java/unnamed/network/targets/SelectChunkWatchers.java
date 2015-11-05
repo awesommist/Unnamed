@@ -8,7 +8,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import unnamed.network.IPacketTargetSelector;
 import unnamed.utils.NetUtils;
-import unnamed.utils.coord.DimCoord;
+import unnamed.utils.vec.DimCoord;
 
 import com.google.common.base.Preconditions;
 

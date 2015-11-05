@@ -1,17 +1,26 @@
 package unnamed.tileentity;
 
+import io.netty.buffer.ByteBuf;
+
 import java.io.IOException;
 import java.util.Set;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
-import io.netty.buffer.ByteBuf;
 import unnamed.Log;
+import unnamed.network.rpc.IRpcTarget;
+import unnamed.network.rpc.RpcCallDispatcher;
+import unnamed.network.rpc.targets.SyncRpcTarget;
+import unnamed.network.senders.IPacketSender;
+import unnamed.reflection.TypeUtils;
 import unnamed.sync.*;
+import unnamed.sync.drops.DropTagSerializer;
 
 public abstract class SyncedTileEntity extends UnnamedTileEntity implements ISyncMapProvider {
 
     protected SyncMapTile<SyncedTileEntity> syncMap;
+
+    private DropTagSerializer tagSerializer;
 
     public SyncedTileEntity() {
         syncMap = new SyncMapTile<SyncedTileEntity>(this);
@@ -26,19 +35,9 @@ public abstract class SyncedTileEntity extends UnnamedTileEntity implements ISyn
         });
     }
 
-    @Override
-    public SyncMap<SyncedTileEntity> getSyncMap() {
-        return syncMap;
-    }
-
-    protected abstract void createSyncedFields();
-
-    public void sync() {
-        syncMap.sync();
-    }
-
-    public void addSyncedObject(String name, ISyncableObject obj) {
-        syncMap.put(name, obj);
+    protected DropTagSerializer getDropSerializer() {
+        if (tagSerializer == null) tagSerializer = new DropTagSerializer();
+        return tagSerializer;
     }
 
     protected ISyncListener createRenderUpdateListener() {
@@ -59,16 +58,19 @@ public abstract class SyncedTileEntity extends UnnamedTileEntity implements ISyn
         };
     }
 
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-        syncMap.readFromNBT(tag);
+    protected abstract void createSyncedFields();
+
+    public void addSyncedObject(String name, ISyncableObject obj) {
+        syncMap.put(name, obj);
+    }
+
+    public void sync() {
+        syncMap.sync();
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
-        super.writeToNBT(tag);
-        syncMap.writeToNBT(tag);
+    public SyncMap<SyncedTileEntity> getSyncMap() {
+        return syncMap;
     }
 
     @Override
@@ -80,5 +82,24 @@ public abstract class SyncedTileEntity extends UnnamedTileEntity implements ISyn
             Log.severe(e, "Error during description packet creation");
             return null;
         }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        syncMap.writeToNBT(tag);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        syncMap.readFromNBT(tag);
+    }
+
+    public <T> T createRpcProxy(ISyncableObject object, Class<? extends T> mainIntf, Class<?>... extraIntf) {
+        TypeUtils.isInstance(object, mainIntf, extraIntf);
+        IRpcTarget target = new SyncRpcTarget.SyncTileEntityRpcTarget(this, object);
+        final IPacketSender sender = RpcCallDispatcher.INSTANCE.senders.client;
+        return RpcCallDispatcher.INSTANCE.createProxy(target, sender, mainIntf, extraIntf);
     }
 }

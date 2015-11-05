@@ -10,8 +10,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.world.World;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.MinecraftForge;
+import unnamed.Unnamed;
+import unnamed.block.BlockSelectionHandler;
+import unnamed.config.properties.CommandConfig;
 import unnamed.gui.ClientGuiHandler;
+import unnamed.source.CommandSource;
+import unnamed.utils.render.RenderUtils;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -40,7 +47,7 @@ public final class UnnamedClientProxy implements IUnnamedProxy {
 
     @Override
     public long getTicks(World worldObj) {
-        if (worldObj != null) { return worldObj.getTotalWorldTime(); }
+        if (worldObj != null) return worldObj.getTotalWorldTime();
         World cWorld = getClientWorld();
         if (cWorld != null) return cWorld.getTotalWorldTime();
         return 0;
@@ -62,7 +69,14 @@ public final class UnnamedClientProxy implements IUnnamedProxy {
     }
 
     @Override
-    public void preInit() {}
+    public void preInit() {
+        ClientCommandHandler.instance.registerCommand(new CommandConfig("un_config_c", false));
+        ClientCommandHandler.instance.registerCommand(new CommandSource("un_source_c", false, Unnamed.instance.getCollector()));
+
+        RenderUtils.registerFogUpdater();
+
+        MinecraftForge.EVENT_BUS.register(new BlockSelectionHandler());
+    }
 
     @Override
     public void init() {}

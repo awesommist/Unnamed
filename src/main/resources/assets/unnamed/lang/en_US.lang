@@ -1,0 +1,39 @@
+unnamed.command.no_enough_args=Not enough arguments
+unnamed.command.unknown_modid=Unknown mod id
+unnamed.command.unknown_value=Unknown config value
+unnamed.command.saved=Saved configuration to %s
+unnamed.command.not_multiple=This property doesn't accept multiple values
+unnamed.command.online_change=Config property changed. Using new value. 
+unnamed.command.offline_change=Config property changed. New value will be applied after restart
+unnamed.command.cancelled=Config change cancelled!
+unnamed.command.unknown_error=Unknown error during config property change: %s
+unnamed.command.invalid_command=Invalid command '%s'
+unnamed.command.invalid_type=Can't convert value %s to %s
+unnamed.command.invalid_class_name=Invalid class name %s
+unnamed.command.unknown_error_details=Unknown error. Please check logs for more details.
+unnamed.command.class_source=Class '%s' loaded from '%s'
+unnamed.command.api_class=API information: name='%s', ownerMod='%s', version='%s'
+unnamed.command.class_provider=Class provided by file %s (mods: %s)
+
+unnamed.color.black=Black
+unnamed.color.red=Red
+unnamed.color.green=Green
+unnamed.color.brown=Brown
+unnamed.color.blue=Blue
+unnamed.color.purple=Purple
+unnamed.color.cyan=Cyan
+unnamed.color.lightGray=Light Gray
+unnamed.color.gray=Gray
+unnamed.color.pink=Pink
+unnamed.color.lime=Lime
+unnamed.color.yellow=Yellow
+unnamed.color.lightBlue=Light Blue
+unnamed.color.magenta=Magenta
+unnamed.color.orange=Orange
+unnamed.color.white=White
+
+unnamed.config.features=Enable/disable features
+unnamed.config.features.blocks=Enable/disable blocks
+unnamed.config.features.items=Enable/disable items
+unnamed.config.config=Mod specific configuration
+unnamed.config.update_warning=§c§lNote:§r to change configuration in runtime, use §l/un_config_s§r or §l/un_config_c§r commands

@@ -11,6 +11,7 @@ import unnamed.Log;
 import unnamed.config.properties.ConfigProcessing.ModConfig;
 import unnamed.utils.SidedCommand;
 import unnamed.utils.io.StringConversionException;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.google.common.collect.ImmutableSet;
@@ -118,7 +119,6 @@ public class CommandConfig extends SidedCommand {
         }
 
         throw error("unnamed.command.no_enough_args");
-
     }
 
     protected void changeValue(ModConfig config, ICommandSender sender, ConfigPropertyMeta property, String... values) {

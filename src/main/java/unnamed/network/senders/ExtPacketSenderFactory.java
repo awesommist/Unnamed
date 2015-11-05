@@ -7,7 +7,7 @@ import unnamed.network.ExtendedOutboundHandler;
 import unnamed.network.IPacketTargetSelector;
 import unnamed.network.targets.SelectChunkWatchers;
 import unnamed.network.targets.SelectEntityWatchers;
-import unnamed.utils.coord.DimCoord;
+import unnamed.utils.vec.DimCoord;
 
 public class ExtPacketSenderFactory {
 

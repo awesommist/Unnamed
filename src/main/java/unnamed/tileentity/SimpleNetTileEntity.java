@@ -9,11 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 public abstract class SimpleNetTileEntity extends UnnamedTileEntity {
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-        readFromNBT(packet.func_148857_g());
-    }
-
-    @Override
     public Packet getDescriptionPacket() {
         return writeToPacket(this);
     }
@@ -22,5 +17,10 @@ public abstract class SimpleNetTileEntity extends UnnamedTileEntity {
         NBTTagCompound data = new NBTTagCompound();
         te.writeToNBT(data);
         return new S35PacketUpdateTileEntity(te.xCoord, te.yCoord, te.zCoord, 42, data);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        readFromNBT(pkt.func_148857_g());
     }
 }
