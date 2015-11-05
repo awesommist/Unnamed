@@ -29,7 +29,7 @@ public class SelectChunkWatchers implements IPacketTargetSelector {
         Preconditions.checkArgument(arg instanceof DimCoord, "Argument must be DimCoord");
         DimCoord coord = (DimCoord) arg;
 
-        WorldServer server = DimensionManager.getWorld(coord.d);
+        WorldServer server = DimensionManager.getWorld(coord.dim);
 
         Set<EntityPlayerMP> players = NetUtils.getPlayersWatchingBlock(server, coord.x, coord.z);
 

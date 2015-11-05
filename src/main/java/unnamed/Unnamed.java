@@ -1,7 +1,13 @@
 package unnamed;
 
+import java.io.File;
+
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
+import unnamed.config.properties.ConfigProcessing;
+import unnamed.handler.DebugScreenHandler;
 import unnamed.proxy.IUnnamedProxy;
+import unnamed.sync.SyncChannelHolder;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -9,7 +15,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Unnamed.MODID, name = Unnamed.MODID, version = "$LIB-VERSION$")
+@Mod(modid = Unnamed.MODID, name = Unnamed.MODID, version = "$LIB-VERSION$", guiFactory = "unnamed.GuiFactory")
 public class Unnamed {
 
     public static final String MODID = "Unnamed";
@@ -22,6 +28,15 @@ public class Unnamed {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        SyncChannelHolder.ensureLoaded();
+
+        final File configFile = event.getSuggestedConfigurationFile();
+        Configuration config = new Configuration(configFile);
+        ConfigProcessing.processAnnotations(MODID, config, LibConfig.class);
+        if (config.hasChanged()) config.save();
+
+        MinecraftForge.EVENT_BUS.register(DebugScreenHandler.instance);
+
         proxy.preInit();
     }
 
@@ -32,7 +47,6 @@ public class Unnamed {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new DebugScreenHandler()); // temporary
         proxy.postInit();
     }
 }

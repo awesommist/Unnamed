@@ -2,6 +2,7 @@ package unnamed.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import unnamed.config.game.IRegisterableBlock;
 
 public abstract class UnnamedBlock extends Block implements IRegisterableBlock {
 

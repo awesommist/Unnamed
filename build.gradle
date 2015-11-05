@@ -86,4 +86,7 @@ artifacts {
     archives sourcesJar
 }
 
+// I think this fixes mcmod.info for idea
+sourceSets { main { output.resourcesDir = output.classesDir } }
+
 defaultTasks 'clean'

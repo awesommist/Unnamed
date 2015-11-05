@@ -1,4 +1,4 @@
-package unnamed.block;
+package unnamed.config.game;
 
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
